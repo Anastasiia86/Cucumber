@@ -2,26 +2,21 @@ package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class VerificationPage {
-    private SelenideElement codeField = $("[data-test-id=code] input");
-    private SelenideElement verifyButton = $("[data-test-id=action-verify]");
-    private SelenideElement errorPopup = $(".notification__content");
+    private SelenideElement codeInput = $x("//span[@data-test-id='code']//input");
+    private SelenideElement verifyButton = $x("//button[@data-test-id='action-verify']");
 
     public VerificationPage() {
-        codeField.shouldBe(visible);
+        codeInput.should(visible);
+        verifyButton.should(visible);
     }
 
-    public DashboardPage validVerify(String verificationCode) {
-        codeField.setValue(verificationCode);
+    public BalancePage verify(String verifyCode) {
+        codeInput.val(verifyCode);
         verifyButton.click();
-        return new DashboardPage();
-    }
-
-    public void verifyCodeIsInvalid() {
-        errorPopup.shouldHave(text("Неверно указан код! Попробуйте ещё раз."));
+        return new BalancePage();
     }
 }

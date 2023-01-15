@@ -2,17 +2,25 @@ package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Selenide.$;
-
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.open;
 
 public class LoginPage {
-    private SelenideElement loginField = $("[data-test-id=login] input");
-    private SelenideElement passwordField = $("[data-test-id=password] input");
-    private SelenideElement loginButton = $("[data-test-id=action-login]");
+    private SelenideElement loginInput = $x("//span[@data-test-id='login']//input");
+    private SelenideElement passwordInput = $x("//span[@data-test-id='password']//input");
+    private SelenideElement loginButton = $x("//button[@data-test-id='action-login']");
 
-    public VerificationPage validLogin(String login, String password) {
-        loginField.setValue(login);
-        passwordField.setValue(password);
+    public LoginPage() {
+        loginInput.should(visible);
+        passwordInput.should(visible);
+        loginButton.should(visible);
+    }
+
+    public ru.netology.page.VerificationPage login(String login, String password) {
+        open("http://localhost:9999");
+        loginInput.val(login);
+        passwordInput.val(password);
         loginButton.click();
         return new VerificationPage();
     }
